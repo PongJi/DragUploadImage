@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽图片上传</title>
+	<style>
+	        div{
+	            width: 300px;
+	            height: 300px;
+	            border: 1px solid pink;
+	            display: flex;
+	            justify-content: center;
+	            align-items: center;
+	            font-size: 26px;
+	        }
+	        img{
+	            max-width: 100%;
+	            max-height: 100%;
+	        }
+	    </style>
+</head>
+<body>
+    <div>
+        <span>拖动图片到这里</span>
+        <img>
+    </div>
+    <button type="button">上传</button>
+</body>
+</html>
+<script>
+    // 与drag drop 相关的事件，需要使用ev.preventDefault()来阻止拖拽的
+    // 默认行为  因为浏览器会默认打开拖放到页面上的资源  （图片文档 音频等）
+    var div=document.querySelector('div');
+    div.ondragover=function(e){
+        ev=e||event;
+        ev.preventDefault();
+    }
+    div.ondrop=function(ev){
+        ev.preventDefault();
+
+        // 获取拖动的文件信息 得到额是一个数组
+        var files=ev.dataTransfer.files;
+        console.log(files);
+        // 获取所上传的文件
+        var file=files[0];
+        // 判断文件是否是图片
+        if(file.type.startsWith='image'){
+            // 加载图片
+            document.querySelector('img').src=URL.createObjectURL(file);
+            // 隐藏span
+            document.querySelector('span').style.display='none';
+        }else{
+            alert('请拖动支持的文件类型');
+        }
+    }
+</script>
